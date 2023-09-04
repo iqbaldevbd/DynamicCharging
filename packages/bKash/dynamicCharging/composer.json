@@ -1,0 +1,18 @@
+{
+    "name": "bkash/dynamiccharging",
+    "description": "Payment package for bKash Dynamic Charging.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Bkash\\Dynamiccharging\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Prabal Mallick"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
