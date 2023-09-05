@@ -22,10 +22,7 @@ class PaymentController
     public function __construct()
     {
          $this->token = $this->token();
-         
-        // $paymentonly->setToken($token['token']);
-        
-        // $this->bkashCallback($CreateReponse);    
+   
     }
 
     public function token()
@@ -40,9 +37,7 @@ class PaymentController
     public function CreatePayment(){
           $paymentonly = new PaymentOnly();
           $token = $this->token;
-          $PaymentResponse = $paymentonly->create(10,'01619777282','sale','BDT',null,$token); //$this->Payments();
-        
-         // $response  = $paymentonly->CallApi($PaymentResponse,$token);
+          $PaymentResponse = $paymentonly->create(10,'01619777282','sale','BDT',null,$token);
           
 
           if ($PaymentResponse->transactionStatus == 'Initiated') {
@@ -55,15 +50,7 @@ class PaymentController
 
 
     }
-    // public function Payments() {
-        
-    //     $token = $this->token;
-
-    //     $response = $this->create(10,'01619777282','sale','BDT',null,$token); 
-          
-    //      return $response;
-        
-    // }
+  
 
     public function bkash_callback(Request $request){
       
@@ -75,24 +62,21 @@ class PaymentController
         echo "<pre>";
         print_r($PaymentResponse);
         exit();
-        // $PaymentResponse =  $this->execute($PaymentID);
-        // $response  = $paymentonly->CallApi($PaymentResponse,$token);
-        // $resultdata = $this->executepayment($PaymentID);
-        // $resultdata = json_decode($resultdata);
-
-        // $orders = Order::all();
-
-        // return view('order.index',compact('orders'));
+       
 
     }
+    public function queryPayment(Request $request)
+    {
+        $token = $this->token;
+        // $PaymentID = $request->paymentId;
+        $PaymentID = 'DCPAY10112bCbPfr1693908894642';
+        $paymentonly = new PaymentOnly();
+        $queryResponse = $paymentonly->queryPayment($PaymentID,$token); //$this->Payments();
 
-    // public function Execute($PaymentID){
+        echo "<pre>";
+        print_r($queryResponse);
+        exit();   
+    }
 
-    //     $response = $this->execute($PaymentID);
-    //     echo "<pre>";
-    //     print_r($response);
-    //     exit();
-    //     return response;
 
-    // }
 }

@@ -18,7 +18,7 @@ trait Payment
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_CREATE_PAYMENT,[
                 'amount' => $amount,
                 'agreementId'=> '',
-                "callbackURL"=> "http://localhost:8000/bkash_callback",
+                "callbackURL"=> "http://localhost:8000/bkash_callback", 
                 'currency' => $currency,
                 'intent' => $intent,
                 "merchantAssociationInfo"=> "",
@@ -46,23 +46,16 @@ trait Payment
         return $data;   
     }
 
-
    
+    public function queryPayment($paymentID,$token)
+    {
+        $data = ['GET',BkashApiEndpoints::DYNAMIC_CHARGING_QUERY_PAYMENT,[
+            'paymentId' => $paymentID
+        ]];
 
-    // public function baseUrl()
-    // {
-    //     $api = BkashApiEndpoints::DYNAMIC_CHARGING_BASE_URL;
-    //     return "https://".$this->env. $api . $this->version;
-    // }
-
-   
-
-    // public function queryPayment($paymentID)
-    // {
-    //     return $this->callApi(
-    //         BkashConstant::METHOD_GET,
-    //         EndPoints::CHECKOUT_QUERY_PAYMENT . $paymentID
-    //     );
-    // }
+        $data = $this->callApi($data,$token);
+        return $data;   
+                
+    }
 
 }
