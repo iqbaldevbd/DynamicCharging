@@ -60,11 +60,13 @@ abstract class AbstractPaymentOnly
         // echo "<pre>";
         // print_r($PaymentResponse);
         // exit();
-
-
+       
+       
         $method = $PaymentResponse[0]; 
         $POST_URL = $PaymentResponse[1];
         $data = $PaymentResponse[2];
+      
+        
       
         $response =  Http::withHeaders([
             'x-app-key' => $this->config['app_key'],

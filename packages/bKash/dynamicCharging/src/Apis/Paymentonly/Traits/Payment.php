@@ -58,4 +58,30 @@ trait Payment
                 
     }
 
+    public function refund($response,$token){
+        $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_REFUND_PAYMENT,$response];
+
+        $data = $this->callApi($data,$token);
+        return $data;   
+     
+    }
+    public function refundStatus($response,$token){
+        $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_REFUND_STATUS,$response];
+
+        $data = $this->callApi($data,$token);
+        return $data;   
+     
+    }
+    
+
+    public function searchTransaction($response,$token){
+        $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_SEARCH_TRAN,$response];
+
+        $data = $this->callApi($data,$token);
+        return $data;   
+     
+    }
+
+
+
 }

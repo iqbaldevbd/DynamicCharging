@@ -57,7 +57,7 @@ class PaymentController
         $token = $this->token;
         $PaymentID = $request->paymentId;
         $paymentonly = new PaymentOnly();
-        $PaymentResponse = $paymentonly->execute($PaymentID,$token); //$this->Payments();
+        $PaymentResponse = $paymentonly->execute($PaymentID,$token); 
 
         echo "<pre>";
         print_r($PaymentResponse);
@@ -71,11 +71,71 @@ class PaymentController
         // $PaymentID = $request->paymentId;
         $PaymentID = 'DCPAY10112bCbPfr1693908894642';
         $paymentonly = new PaymentOnly();
-        $queryResponse = $paymentonly->queryPayment($PaymentID,$token); //$this->Payments();
+        $queryResponse = $paymentonly->queryPayment($PaymentID,$token);
 
         echo "<pre>";
         print_r($queryResponse);
         exit();   
+    }
+
+    public function refund(){
+        $token = $this->token;
+        $paymentonly = new PaymentOnly();
+        $agreementID = "";
+        $amount = 10;
+        $paymentId = 'DCPAY10112bCbPfr1693908894642';
+        $sku = '01619777282';
+        $transactionID = 'AI570D3B5Z';
+        $reason = "test-basis";
+        
+        $data = [
+            "agreementId" => $agreementID,
+            "amount" => $amount,
+            "paymentId" => $paymentId,
+            "reason" => $reason,
+            "sku" => $sku,
+            "trxID"=> $transactionID
+        ];
+        $queryResponse = $paymentonly->refund($data,$token); 
+
+        echo "<pre>";
+        print_r($queryResponse);
+        exit();   
+    }
+
+    public function refundStatus(){
+         $token = $this->token;
+        $paymentonly = new PaymentOnly();
+        $agreementID = "";
+        $paymentId = 'DCPAY10112bCbPfr1693908894642';
+        $transactionID = 'AI570D3B5Z';
+        
+        $data = [
+            "agreementId" => $agreementID,
+            "paymentId" => $paymentId,
+            "trxID"=> $transactionID
+        ];
+        $refundStatus = $paymentonly->refundStatus($data,$token); 
+
+        echo "<pre>";
+        print_r($refundStatus);
+        exit();   
+    }
+
+
+    public function SearchTXN(){
+        $token = $this->token;
+        $transactionID = 'AI570D3B5Z';
+        $data = [
+            "trxID"=> $transactionID
+        ];
+        $paymentonly = new PaymentOnly();
+        $SearchResults = $paymentonly->searchTransaction($data,$token); ;
+
+        echo "<pre>";
+        print_r($SearchResults);
+        exit(); 
+
     }
 
 
