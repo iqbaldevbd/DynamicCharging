@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 trait Payment
 {
-    protected $CallApi;
-
-
+    /*Create Payment Method for Calling Create Payment API in Dynamic Charging. */
     public function create($amount, $merchantInvoiceNumber, $intent, $currency = 'BDT', $merchantAssociationInfo = null,$token)
     {
         
@@ -29,10 +27,11 @@ trait Payment
             ]];
        
 
-        $data = $this->callApi($data,$token);
+        $data = $this->callApi($data,$token); //Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
     }
 
+    /* Execute Metod for Calling Executing the Payment using PaymentID in Dynamic Charging.*/
     public function execute($paymentID,$token)
     {
         
@@ -42,42 +41,44 @@ trait Payment
             ]];
           
 
-        $data = $this->callApi($data,$token);
+        $data = $this->callApi($data,$token);//Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
     }
 
-   
+    /* Query Payment Method for getting the details of PaymentID in Dynamic Charging.*/
     public function queryPayment($paymentID,$token)
     {
         $data = ['GET',BkashApiEndpoints::DYNAMIC_CHARGING_QUERY_PAYMENT,[
             'paymentId' => $paymentID
         ]];
 
-        $data = $this->callApi($data,$token);
+        $data = $this->callApi($data,$token);//Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
                 
     }
 
+    /* Refund Method for Doing Refund to Customer in Dynamic Charging.*/
     public function refund($response,$token){
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_REFUND_PAYMENT,$response];
 
-        $data = $this->callApi($data,$token);
+        $data = $this->callApi($data,$token); //Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
      
     }
+    /* Method of Refund to know the Status of Refunded transaction in Dynamic Charging*/
     public function refundStatus($response,$token){
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_REFUND_STATUS,$response];
 
-        $data = $this->callApi($data,$token);
+        $data = $this->callApi($data,$token);//Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
      
     }
     
-
+    /* Method for Searching Transaction Details by using transaction ID in Dynamic Charging */
     public function searchTransaction($response,$token){
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_SEARCH_TRAN,$response];
 
-        $data = $this->callApi($data,$token);
+        $data = $this->callApi($data,$token);//Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
      
     }
