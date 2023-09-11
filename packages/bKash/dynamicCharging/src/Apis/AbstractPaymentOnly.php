@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\Http;
 
 abstract class AbstractPaymentOnly
 {
-	protected $config;
-    protected $version;
-    protected $env;
-    protected $token = null;
+	protected $config; //Initiating Config Variable to get all conig data
+    protected $version;//Initiating Version Variable to get the present version
+    protected $env;//Initiating env to get all values from Env file
+    protected $token = null; //Initiating token to generate token and store
 
     public function __construct($config)
     {
         $this->config = $config;
         $this->version = $config['version'];
-        $this->env = $config['sandbox'] ? 'sbdynamic' : 'dynamic';
-        // dd($this->config['sandbox']);
+        $this->env = $config['sandbox'] ? 'sbdynamic' : 'dynamic'; //Single if condition to check the environment of system
     }
 
+    //Method for generating token in dynamic Charging
     public function getToken()
     {
         $response = Http::withHeaders([
@@ -44,6 +44,7 @@ abstract class AbstractPaymentOnly
         }
     }
 
+    //Method for Set the token value 
     public function setToken($token)
     {
         if( empty($token) && !is_string($token) && $token != ""){
@@ -54,31 +55,25 @@ abstract class AbstractPaymentOnly
     }
     
     
-
+    //Dynamic Method for Calling API from Merchant System to bKash server
     public function callApi($PaymentResponse,$token){
-
-        // echo "<pre>";
-        // print_r($PaymentResponse);
-        // exit();
        
-       
-        $method = $PaymentResponse[0]; 
-        $POST_URL = $PaymentResponse[1];
-        $data = $PaymentResponse[2];
+        $method = $PaymentResponse[0]; //Mehtod Name like "POST" or "GET"
+        $POST_URL = $PaymentResponse[1]; //POST URL is API URL where all value will be submitted
+        $data = $PaymentResponse[2];  //All Request Parameter will be stored here
       
-        
-      
+        //Using For Sending Request to bKash Server
         $response =  Http::withHeaders([
             'x-app-key' => $this->config['app_key'],
             'Authorization' => $token,
             'Content-Type' => 'application/json'
              ])->POST($this->baseUrl().$POST_URL,$data);
 
-        return json_decode($response->body());
+        return json_decode($response->body()); //Returning the response to merchant system
 
     }
 
-
+    //Method for making dynamic base URL
     public function baseUrl()
     {
         $api = BkashApiEndpoints::DYNAMIC_CHARGING_BASE_URL;
@@ -92,8 +87,4 @@ abstract class AbstractPaymentOnly
             'statusMessage' => "Unauthorized access."
         ];
     }
-
-    // abstract protected function subDomain();
-
-    // abstract protected function urlPrefix();
 }
