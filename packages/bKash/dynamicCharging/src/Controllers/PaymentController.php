@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
-
-
 use Bkash\Dynamiccharging\Consts\BkashApiEndpoints;
 use Bkash\Dynamiccharging\Apis\Paymentonly\PaymentOnly;
 use Bkash\Dynamiccharging\Apis\Paymentonly\Traits\Payment;
@@ -48,7 +46,6 @@ class PaymentController
             exit();
            }
 
-
     }
   
 
@@ -69,7 +66,7 @@ class PaymentController
     {
         $token = $this->token;
         // $PaymentID = $request->paymentId;
-        $PaymentID = 'DCPAY10112bCbPfr1693908894642';
+        $PaymentID = 'DCPAY1011bkQIIfM1694497969231';
         $paymentonly = new PaymentOnly();
         $queryResponse = $paymentonly->queryPayment($PaymentID,$token);
 
@@ -83,39 +80,25 @@ class PaymentController
         $paymentonly = new PaymentOnly();
         $agreementID = "";
         $amount = 10;
-        $paymentId = 'DCPAY10112bCbPfr1693908894642';
+        $paymentId = 'DCPAY1011bkQIIfM1694497969231';
         $sku = '01619777282';
-        $transactionID = 'AI570D3B5Z';
+        $transactionID = 'AIC40DO3MC';
         $reason = "test-basis";
         
-        $data = [
-            "agreementId" => $agreementID,
-            "amount" => $amount,
-            "paymentId" => $paymentId,
-            "reason" => $reason,
-            "sku" => $sku,
-            "trxID"=> $transactionID
-        ];
-        $queryResponse = $paymentonly->refund($data,$token); 
+        $refundResults = $paymentonly->refund($agreementID,$amount,$paymentId,$reason,$sku,$transactionID,$token); 
 
         echo "<pre>";
-        print_r($queryResponse);
+        print_r($refundResults);
         exit();   
     }
 
     public function refundStatus(){
-         $token = $this->token;
+        $token = $this->token;
         $paymentonly = new PaymentOnly();
         $agreementID = "";
         $paymentId = 'DCPAY10112bCbPfr1693908894642';
         $transactionID = 'AI570D3B5Z';
-        
-        $data = [
-            "agreementId" => $agreementID,
-            "paymentId" => $paymentId,
-            "trxID"=> $transactionID
-        ];
-        $refundStatus = $paymentonly->refundStatus($data,$token); 
+        $refundStatus = $paymentonly->refundStatus($agreementID,$paymentId,$transactionID,$token); 
 
         echo "<pre>";
         print_r($refundStatus);
@@ -125,12 +108,10 @@ class PaymentController
 
     public function SearchTXN(){
         $token = $this->token;
-        $transactionID = 'AI570D3B5Z';
-        $data = [
-            "trxID"=> $transactionID
-        ];
+        $transactionID = 'AIC40DO4DU';
+       
         $paymentonly = new PaymentOnly();
-        $SearchResults = $paymentonly->searchTransaction($data,$token); ;
+        $SearchResults = $paymentonly->searchTransaction($transactionID,$token); ;
 
         echo "<pre>";
         print_r($SearchResults);

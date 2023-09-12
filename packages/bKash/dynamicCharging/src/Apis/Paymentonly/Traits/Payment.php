@@ -2,7 +2,7 @@
 
 namespace Bkash\Dynamiccharging\Apis\Paymentonly\Traits;
 
-use Bkash\Dynamiccharging\Consts\BkashApiEndpoints;
+use Bkash\Dynamiccharging\Consts\BkashApiEndpoints; //For accesing the endpoints dynamia
 use Bkash\Dynamiccharging\Apis\AbstractPaymentOnly;
 use Illuminate\Support\Facades\Http;
 
@@ -58,7 +58,17 @@ trait Payment
     }
 
     /* Refund Method for Doing Refund to Customer in Dynamic Charging.*/
-    public function refund($response,$token){
+    public function refund($agreementID,$amount,$paymentId,$reason,$sku,$transactionID,$token){
+
+        $response = [
+            "agreementId" => $agreementID,
+            "amount" => $amount,
+            "paymentId" => $paymentId,
+            "reason" => $reason,
+            "sku" => $sku,
+            "trxID"=> $transactionID
+        ];
+
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_REFUND_PAYMENT,$response];
 
         $data = $this->callApi($data,$token); //Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
@@ -66,7 +76,14 @@ trait Payment
      
     }
     /* Method of Refund to know the Status of Refunded transaction in Dynamic Charging*/
-    public function refundStatus($response,$token){
+    public function refundStatus($agreementID,$paymentId,$transactionID,$token){
+
+        $response = [
+            "agreementId" => $agreementID,
+            "paymentId" => $paymentId,
+            "trxID"=> $transactionID
+        ];
+
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_REFUND_STATUS,$response];
 
         $data = $this->callApi($data,$token);//Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
@@ -75,8 +92,13 @@ trait Payment
     }
     
     /* Method for Searching Transaction Details by using transaction ID in Dynamic Charging */
-    public function searchTransaction($response,$token){
+    public function searchTransaction($transactionID,$token){
+        $response = [
+            "trxID"=> $transactionID
+        ];
+        
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_SEARCH_TRAN,$response];
+        
 
         $data = $this->callApi($data,$token);//Calling Another Method- CallAPI from AbstractClass to Send request to bKash API
         return $data;   
