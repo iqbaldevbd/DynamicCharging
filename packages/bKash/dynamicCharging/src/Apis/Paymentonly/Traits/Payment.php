@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Http;
 trait Payment
 {
     /*Create Payment Method for Calling Create Payment API in Dynamic Charging. */
-    public function create($amount, $merchantInvoiceNumber, $intent, $currency = 'BDT', $merchantAssociationInfo = null,$token)
+    public function create($amount, $merchantInvoiceNumber, $intent,$bkashCallBackURL, $currency = 'BDT', $merchantAssociationInfo = null,$token)
     {
         
         $data = ['POST',BkashApiEndpoints::DYNAMIC_CHARGING_CREATE_PAYMENT,[
                 'amount' => $amount,
                 'agreementId'=> '',
-                "callbackURL"=> "http://localhost:8000/bkash_callback", 
+                "callbackURL"=> $bkashCallBackURL, 
                 'currency' => $currency,
                 'intent' => $intent,
                 "merchantAssociationInfo"=> "",

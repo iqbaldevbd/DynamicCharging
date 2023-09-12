@@ -35,7 +35,8 @@ class PaymentController
     public function CreatePayment(){
           $paymentonly = new PaymentOnly();
           $token = $this->token;
-          $PaymentResponse = $paymentonly->create(10,'01619777282','sale','BDT',null,$token);
+          $bkashCallBackURL = "http://localhost:8000/bkash_callback";
+          $PaymentResponse = $paymentonly->create(10,'01619777282','sale',$bkashCallBackURL,'BDT',null,$token);
           
 
           if ($PaymentResponse->transactionStatus == 'Initiated') {
